@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { Component } from 'react';
+import css from "../App.module.css";
 
 const INITIAL_STATE = {
   name: '',
@@ -23,7 +24,18 @@ export class ContactForm extends Component {
       number: this.state.number,
     };
 
-    addContact(contact);
+    let userExists = false;
+
+    contacts.forEach(user => {
+      if (user.name.toLowerCase() === contact.name.toLowerCase()) {
+        alert(contact.name + " is already in your contacts");
+        userExists = true;
+      }
+    });
+
+    if (userExists === false) {
+      addContact(contact);
+    }
     this.reset();
   };
 
@@ -39,7 +51,7 @@ export class ContactForm extends Component {
     const numberInputId = nanoid();
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className={css.form}>
         <label htmlFor={nameInputId}>Name</label>
         <input
           id={nameInputId}
@@ -65,7 +77,7 @@ export class ContactForm extends Component {
           required
           onChange={this.handleChange}
         />
-        <button type="submit" name="submit">
+        <button type="submit" name="submit" className={css.button}>
           Add contact
         </button>
       </form>
